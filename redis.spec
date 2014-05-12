@@ -2,7 +2,7 @@
 # http://code.google.com/p/redis/issues/detail?id=202
 
 Name:             redis
-Version:          2.6.9
+Version:          2.8.9
 Release:          1%{?dist}
 Summary:          A persistent key-value database
 
@@ -99,6 +99,9 @@ fi
 %{_initrddir}/%{name}
 
 %changelog
+* Mon May 12 2014 Per Andersson <avtobiff@gmail.com> - 2.8.9-1
+- Update to redis 2.8.9
+
 * Tue Apr 16 2013 Karl Böhlmark <karl.bohlmark@gmail.com> - 2.6.12-1
 - Update to redis 2.6.12
 
