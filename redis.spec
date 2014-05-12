@@ -13,7 +13,7 @@ Source0:          http://redis.googlecode.com/files/%{name}-%{version}.tar.gz
 Source1:          %{name}.logrotate
 Source2:          %{name}.init
 # Update configuration
-Patch0:           %{name}-${version}-redis.conf.patch
+Patch0:           %{name}-%{version}-redis.conf.patch
 BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:    tcl >= 8.5
