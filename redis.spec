@@ -99,6 +99,9 @@ fi
 %{_initrddir}/%{name}
 
 %changelog
+* Tue Apr 16 2013 Karl Böhlmark <karl.bohlmark@gmail.com> - 2.6.12-1
+- Update to redis 2.6.12
+
 * Thu Feb 06 2013 Karl Böhlmark <karl.bohlmark@gmail.com> - 2.6.9-1
 - Update to redis 2.6.9
 
