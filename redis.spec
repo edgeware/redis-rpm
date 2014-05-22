@@ -84,6 +84,10 @@ chmod 755 %{buildroot}%{_bindir}/%{name}-*
 mkdir -p %{buildroot}%{_sbindir}
 mv %{buildroot}%{_bindir}/%{name}-server %{buildroot}%{_sbindir}/%{name}-server
 
+# create lib package directories
+mkdir -p %{buildroot}%{_includedir}
+mkdir -p %{buildroot}%{_libdir}
+
 cd src
 # install headers
 install -p -D -m 644 ae.h %{buildroot}%{_includedir}
