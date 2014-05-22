@@ -94,6 +94,7 @@ for src in ae.c config.c zmalloc.c; do
         -I../deps/hiredis -I../deps/linenoise -I../deps/lua/src \
         -DUSE_JEMALLOC -I../deps/jemalloc/include -c $src
 done
+mkdir -p %{buildroot}%{_libdir}
 # create static library libae.a
 ar rcs libae.a ae.o config.o zmalloc.o
 install -p -D -m 644 libae.a %{buildroot}%{_libdir}
