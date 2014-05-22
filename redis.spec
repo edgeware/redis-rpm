@@ -89,11 +89,11 @@ cd src
 install -p -D -m 644 ae.h %{buildroot}%{_includedir}
 install -p -D -m 644 zmalloc.h %{buildroot}%{_includedir}
 # build ae.o and zmalloc.o
-gcc -Wall -fPIC -DUSE_JEMALLOC -I../deps/jemalloc/include \
-    -c zmalloc.c config.h zmalloc.h ../deps/jemalloc/lib/libjemalloc.a -ldl
-gcc -Wall -fPIC -DUSE_JEMALLOC -I../deps/jemalloc/include \
-    -c ae.c ae.h zmalloc.h config.h ae_kqueue.c ae_epoll.c \
-       ae_select.c ae_evport.c ../deps/jemalloc/lib/libjemalloc.a -ldl
+for src in ae.c zmalloc.c; do
+    cc -std=c99 -pedantic -Wall -O2 -g -ggdb -O2 -g
+        -I../deps/hiredis -I../deps/linenoise -I../deps/lua/src \
+        -DUSE_JEMALLOC -I../deps/jemalloc/include -c $src
+done
 # create static library libae.a
 ar rcs libae.a ae.o config.o zmalloc.o
 install -p -D -m 644 libae.a %{buildroot}%{_libdir}
