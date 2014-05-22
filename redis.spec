@@ -99,10 +99,11 @@ ar rcs libae.a ae.o config.o zmalloc.o
 install -p -D -m 644 libae.a %{buildroot}%{_libdir}
 # create shared library libae.so
 gcc -shared -Wl,-soname,libae.so.2 -o libae.so.2.8.9 ae.o config.o zmalloc.o
-install -p -D -m 644 libae.so.2.8.9 %{buildroot}%{_libdir}
+install -p -D -m 644 libae.so.%{version} \
+    %{buildroot}%{_libdir}/libae.so.%{version}
 cd %{buildroot}%{_libdir}
-ln -sf libae.so.2.8.9 libae.so.2
-ln -sf libae.so.2.8.9 libae.so
+ln -sf libae.so.%{version} libae.so.2
+ln -sf libae.so.%{version} libae.so
 
 %clean
 rm -fr %{buildroot}
