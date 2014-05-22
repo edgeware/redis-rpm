@@ -27,6 +27,15 @@ Requires(pre):    shadow-utils
 Requires(preun):  chkconfig
 Requires(preun):  initscripts
 
+%package -n libae
+Summary:          Redis asynchronous event library
+Group:            System Environment/Libraries
+
+%package -n libae-devel
+Summary:          Header files and libraries for Redis asynchronous event library
+Group:            Development/Libraries
+Requires:         libae
+
 %description
 Redis is an advanced key-value store. It is similar to memcached but the data
 set is not volatile, and values can be strings, exactly like in memcached, but
@@ -34,6 +43,14 @@ also lists, sets, and ordered sets. All this data types can be manipulated with
 atomic operations to push/pop elements, add/remove elements, perform server side
 union, intersection, difference between sets, and so forth. Redis supports
 different kind of sorting abilities.
+
+%description -n libae
+Redis asynchronous event library. This library also includes the custom
+allocator implementation zmalloc.
+
+%description -n libae-devel
+The libae-devel package contains the header files and libraries to develop
+applications using Redis asynchronous event library.
 
 %prep
 %setup -q
@@ -67,6 +84,25 @@ chmod 755 %{buildroot}%{_bindir}/%{name}-*
 mkdir -p %{buildroot}%{_sbindir}
 mv %{buildroot}%{_bindir}/%{name}-server %{buildroot}%{_sbindir}/%{name}-server
 
+%install -n libae
+cd src
+# install headers
+install -p -D -m 644 ae.h %{buildroot}%{_includedir}
+install -p -D -m 644 zmalloc.h %{buildroot}%{_includedir}
+# build ae.o and zmalloc.o
+gcc -Wall -fPIC -c -o zmalloc.o zmalloc.c config.h zmalloc.h
+gcc -Wall -fPIC -c -o ae.o ae.c ae.h zmalloc.h config.h ae_kqueue.c \
+                           ae_epoll.c ae_select.c ae_evport.c
+# create static library libae.a
+ar rcs libae.a ae.o config.o zmalloc.o
+install -p -D -m 644 libae.a %{buildroot}%{_libdir}
+# create shared library libae.so
+gcc -shared -Wl,-soname,libae.so.2 -o libae.so.2.8.9 ae.o config.o zmalloc.o
+install -p -D -m 644 libae.so.2.8.9 %{buildroot}%{_libdir}
+cd %{buildroot}%{_libdir}
+ln -sf libae.so.2.8.9 libae.so.2
+ln -sf libae.so.2.8.9 libae.so
+
 %clean
 rm -fr %{buildroot}
 
@@ -97,6 +133,18 @@ fi
 %{_bindir}/%{name}-*
 %{_sbindir}/%{name}-*
 %{_initrddir}/%{name}
+
+%files -n libae
+%defattr(-,root,root,-)
+%{_libdir}/libae.so
+%{_libdir}/libae.so.2
+%{_libdir}/libae.so.2.8.9
+
+%files -n libae-devel
+%defattr(-,root,root,-)
+%{_includedir}/ae.h
+%{_includedir}/zmalloc.h
+%{_libdir}/libae.a
 
 %changelog
 * Mon May 12 2014 Per Andersson <avtobiff@gmail.com> - 2.8.9-1
