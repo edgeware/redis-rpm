@@ -84,7 +84,6 @@ chmod 755 %{buildroot}%{_bindir}/%{name}-*
 mkdir -p %{buildroot}%{_sbindir}
 mv %{buildroot}%{_bindir}/%{name}-server %{buildroot}%{_sbindir}/%{name}-server
 
-%install -n libae
 cd src
 # install headers
 install -p -D -m 644 ae.h %{buildroot}%{_includedir}
