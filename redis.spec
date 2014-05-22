@@ -89,7 +89,7 @@ cd src
 install -p -D -m 644 ae.h %{buildroot}%{_includedir}
 install -p -D -m 644 zmalloc.h %{buildroot}%{_includedir}
 # build ae.o and zmalloc.o
-for src in ae.c zmalloc.c; do
+for src in ae.c config.c zmalloc.c; do
     cc -std=c99 -pedantic -Wall -O2 -g -ggdb -O2 -g -fPIC -DPIC \
         -I../deps/hiredis -I../deps/linenoise -I../deps/lua/src \
         -DUSE_JEMALLOC -I../deps/jemalloc/include -c $src
